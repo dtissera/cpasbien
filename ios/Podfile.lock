@@ -1,0 +1,50 @@
+PODS:
+  - CocoaLumberjack (2.0.0-rc2):
+    - CocoaLumberjack/Default (= 2.0.0-rc2)
+    - CocoaLumberjack/Extensions (= 2.0.0-rc2)
+  - CocoaLumberjack/Core (2.0.0-rc2)
+  - CocoaLumberjack/Default (2.0.0-rc2):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.0.0-rc2):
+    - CocoaLumberjack/Default
+  - DTIToastCenter (0.0.1)
+  - INSPullToRefresh (1.0.2)
+  - KVNProgress (2.1.10)
+  - REMenu (1.10)
+  - SwiftTask (2.6.0)
+  - SwiftyJSON (2.1.3)
+  - SWRevealViewController (2.3.0)
+  - TOMSMorphingLabel (0.5.1)
+
+DEPENDENCIES:
+  - CocoaLumberjack (= 2.0.0-rc2)
+  - DTIToastCenter (from `https://github.com/dtissera/DTIToastCenter-Swift.git`)
+  - INSPullToRefresh
+  - KVNProgress
+  - REMenu
+  - SwiftTask
+  - SwiftyJSON
+  - SWRevealViewController
+  - TOMSMorphingLabel
+
+EXTERNAL SOURCES:
+  DTIToastCenter:
+    :git: https://github.com/dtissera/DTIToastCenter-Swift.git
+
+CHECKOUT OPTIONS:
+  DTIToastCenter:
+    :commit: 21eac8a368d8b3659692d4c21f126e177b104bca
+    :git: https://github.com/dtissera/DTIToastCenter-Swift.git
+
+SPEC CHECKSUMS:
+  CocoaLumberjack: 6027cd9a0665203a7df456c526e137f02cd547e1
+  DTIToastCenter: 3a27f1ca273c472a7a3e1b6737b46556d778ef94
+  INSPullToRefresh: e34bc80efc480f748ea8b0647974cb8fe7ffe4a0
+  KVNProgress: af4d5bfaf9015c5014a3f8011bef0f4a512c12a3
+  REMenu: e3988747d83f9e8f49f244bd3f1fb8b0900e8741
+  SwiftTask: 141abe59dab678c8d62dce8f580d79ddc3af44e3
+  SwiftyJSON: 48be7490a3989a58a3f511cd54167f0a2b466e76
+  SWRevealViewController: f6d80638b8e12323e87ac79562345403a799cb77
+  TOMSMorphingLabel: b35135cf7cb7c1ef4f7a9840bb131053c42d3577
+
+COCOAPODS: 0.36.0

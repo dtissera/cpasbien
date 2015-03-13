@@ -1,0 +1,8 @@
+!.gitignore
+.DS_Store
+xcuserdata
+DerivedData
+project.xcworkspace
+*.xccheckout
+Build
+Pods

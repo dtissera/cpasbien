@@ -1,0 +1,20 @@
+platform :ios, '8.0'
+
+target 'cpasbien' do
+	use_frameworks!
+
+	pod 'CocoaLumberjack', '= 2.0.0-rc2'
+	pod 'SwiftyJSON'
+    pod 'SwiftTask'
+    pod 'INSPullToRefresh'
+    pod 'DTIToastCenter', :git => 'https://github.com/dtissera/DTIToastCenter-Swift.git'
+    pod 'SWRevealViewController'
+    pod 'TOMSMorphingLabel'
+    pod 'REMenu'
+    pod 'KVNProgress'
+end
+
+target 'cpasbienTests' do
+
+end
+
