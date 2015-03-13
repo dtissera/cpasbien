@@ -12,6 +12,50 @@ This client use new Apple programming language (Swift)
 ## Installation
 Install dependances provided in `package.json` 
 Go to node folder
-```
+```bash
 npm install
 ```
+## REST API
+
+### /api/1
+`GET    /ping`
+
+> Ping the server
+
+```
+{
+  "message": "Welcome"
+}
+```
+
+### /api/1/research
+`GET    /all`
+> Get list of search
+
+`GET    /:id`
+> Get search detail
+
+`DELETE /:id`
+> Delete a search
+
+`POST   /create`
+> Create a search
+
+`POST   /update`
+> Update existing search
+
+`POST   /disable`
+> Disable one/all torrents from a search
+
+`POST   /enable`
+> Enable one/all torrents from a search
+
+`POST   /download`
+> Download all torrents with state enabled from a search
+
+### /api/1/syno
+`GET    /check`
+> Check connexion with NAS Synology
+
+`POST   /download`
+> Send torrent to the NAS
