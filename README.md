@@ -101,21 +101,83 @@ npm install
 `POST   /create`
 > Create a search
 
+**Response**
+```
+{
+  "id": "DSVQd2apJ5XfgDmH",
+  "research": "superman",
+  "missingCount": 3,
+  "count": 3,
+  "added": "2015-03-13T22:28:54.806Z",
+  "updated": "2015-03-13T22:28:56.107Z",
+  "torrents": [
+    {
+      "order": 0,
+      "name": "Superman: Unbound FRENCH DVDRIP 2013",
+      "enabled": true,
+      "fileSize": "702.0 Mo",
+      "date": "2013-04-24T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-unbound-french-dvdrip-2013.torrent"
+    },
+    {
+      "order": 1,
+      "name": "Superman Returns FRENCH DVDRIP 2006",
+      "enabled": true,
+      "fileSize": "699.5 Mo",
+      "date": "2010-10-27T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-returns-french-dvdrip-2006.torrent"
+    },
+    {
+      "order": 2,
+      "name": "Superman Batman Apocalypse FRENCH DVDRIP 2010",
+      "enabled": true,
+      "fileSize": "708.6 Mo",
+      "date": "2010-09-27T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-batman-apocalypse-french-dvdrip-2010.torrent"
+    }
+  ]
+}
+```
+
 `POST   /update`
 > Update existing search
+
+**Response**
+```
+```
 
 `POST   /disable`
 > Disable one/all torrents from a search
 
+**Response**
+```
+```
+
 `POST   /enable`
 > Enable one/all torrents from a search
 
+**Response**
+```
+```
+
 `POST   /download`
 > Download all torrents with state enabled from a search
+
+**Response**
+```
+```
 
 ### /api/1/syno
 `GET    /check`
 > Check connexion with NAS Synology
 
+**Response**
+```
+```
+
 `POST   /download`
 > Send torrent to the NAS
+
+**Response**
+```
+```
