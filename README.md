@@ -144,6 +144,40 @@ npm install
 
 **Response**
 ```
+{
+  "id": "DSVQd2apJ5XfgDmH",
+  "research": "superman",
+  "missingCount": 3,
+  "count": 3,
+  "added": "2015-03-13T22:28:54.806Z",
+  "updated": "2015-03-13T22:33:03.153Z",
+  "torrents": [
+    {
+      "order": 0,
+      "name": "Superman: Unbound FRENCH DVDRIP 2013",
+      "enabled": true,
+      "fileSize": "702.0 Mo",
+      "date": "2013-04-24T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-unbound-french-dvdrip-2013.torrent"
+    },
+    {
+      "order": 1,
+      "name": "Superman Returns FRENCH DVDRIP 2006",
+      "enabled": true,
+      "fileSize": "699.5 Mo",
+      "date": "2010-10-27T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-returns-french-dvdrip-2006.torrent"
+    },
+    {
+      "order": 2,
+      "name": "Superman Batman Apocalypse FRENCH DVDRIP 2010",
+      "enabled": true,
+      "fileSize": "708.6 Mo",
+      "date": "2010-09-27T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-batman-apocalypse-french-dvdrip-2010.torrent"
+    }
+  ]
+}
 ```
 
 `POST   /disable`
@@ -151,6 +185,40 @@ npm install
 
 **Response**
 ```
+{
+  "id": "DSVQd2apJ5XfgDmH",
+  "research": "superman",
+  "missingCount": 0,
+  "count": 3,
+  "added": "2015-03-13T22:28:54.806Z",
+  "updated": "2015-03-13T22:34:15.541Z",
+  "torrents": [
+    {
+      "order": 0,
+      "name": "Superman: Unbound FRENCH DVDRIP 2013",
+      "enabled": false,
+      "fileSize": "702.0 Mo",
+      "date": "2013-04-24T00:00:00.000Z",
+      "url": null
+    },
+    {
+      "order": 1,
+      "name": "Superman Returns FRENCH DVDRIP 2006",
+      "enabled": false,
+      "fileSize": "699.5 Mo",
+      "date": "2010-10-27T00:00:00.000Z",
+      "url": null
+    },
+    {
+      "order": 2,
+      "name": "Superman Batman Apocalypse FRENCH DVDRIP 2010",
+      "enabled": false,
+      "fileSize": "708.6 Mo",
+      "date": "2010-09-27T00:00:00.000Z",
+      "url": null
+    }
+  ]
+}
 ```
 
 `POST   /enable`
@@ -158,6 +226,40 @@ npm install
 
 **Response**
 ```
+{
+  "id": "rxp6tTorcbvjljea",
+  "research": "superman",
+  "missingCount": 3,
+  "count": 3,
+  "added": "2015-03-11T20:36:37.042Z",
+  "updated": "2015-03-13T22:34:54.925Z",
+  "torrents": [
+    {
+      "order": 0,
+      "name": "Superman: Unbound FRENCH DVDRIP 2013",
+      "enabled": true,
+      "fileSize": "702.0 Mo",
+      "date": "2013-04-24T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-unbound-french-dvdrip-2013.torrent"
+    },
+    {
+      "order": 1,
+      "name": "Superman Returns FRENCH DVDRIP 2006",
+      "enabled": true,
+      "fileSize": "699.5 Mo",
+      "date": "2010-10-27T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-returns-french-dvdrip-2006.torrent"
+    },
+    {
+      "order": 2,
+      "name": "Superman Batman Apocalypse FRENCH DVDRIP 2010",
+      "enabled": true,
+      "fileSize": "708.6 Mo",
+      "date": "2010-09-27T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-batman-apocalypse-french-dvdrip-2010.torrent"
+    }
+  ]
+}
 ```
 
 `POST   /download`
@@ -165,6 +267,40 @@ npm install
 
 **Response**
 ```
+{
+  "id": "rxp6tTorcbvjljea",
+  "research": "superman",
+  "missingCount": 0,
+  "count": 3,
+  "added": "2015-03-11T20:36:37.042Z",
+  "updated": "2015-03-13T22:36:08.765Z",
+  "torrents": [
+    {
+      "order": 0,
+      "name": "Superman: Unbound FRENCH DVDRIP 2013",
+      "enabled": false,
+      "fileSize": "702.0 Mo",
+      "date": "2013-04-24T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-unbound-french-dvdrip-2013.torrent"
+    },
+    {
+      "order": 1,
+      "name": "Superman Returns FRENCH DVDRIP 2006",
+      "enabled": false,
+      "fileSize": "699.5 Mo",
+      "date": "2010-10-27T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-returns-french-dvdrip-2006.torrent"
+    },
+    {
+      "order": 2,
+      "name": "Superman Batman Apocalypse FRENCH DVDRIP 2010",
+      "enabled": false,
+      "fileSize": "708.6 Mo",
+      "date": "2010-09-27T00:00:00.000Z",
+      "url": "http://www.cpasbien.pw/telechargement/superman-batman-apocalypse-french-dvdrip-2010.torrent"
+    }
+  ]
+}
 ```
 
 ### /api/1/syno
@@ -173,6 +309,9 @@ npm install
 
 **Response**
 ```
+{
+  "sid": "7i3tDyUcRpoMY13A0LTN006415"
+}
 ```
 
 `POST   /download`
