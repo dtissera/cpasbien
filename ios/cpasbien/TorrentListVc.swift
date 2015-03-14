@@ -12,6 +12,11 @@ import REMenu
 import CocoaLumberjack
 import DTIToastCenter
 import SwiftTask
+import KVNProgress
+
+protocol TorrentListVcDelegate: NSObjectProtocol {
+    func torrentListDidChanged(sender: TorrentListVc)
+}
 
 class TorrentListVc: UITableViewController, UIActionSheetDelegate {
     @IBOutlet weak var outletLabelNbTorrents: UILabel!
@@ -29,6 +34,8 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
     private var data: Array<TorrentItem>?
     private var menu: REMenu?
     private var isLoading = false
+    
+    var delegate: TorrentListVcDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,9 +139,18 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             return
         }
         
-        let popup = UIActionSheet(title: item.name, delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: "download", otherButtonTitles: "enable", "disable")
-        popup.tag = indexPath.row
-        popup.showInView(self.view)
+        if let enabled = item.enabled {
+            var caption: String!
+            if enabled {
+                caption = "disable"
+            }
+            else {
+                caption = "enable"
+            }
+            let popup = UIActionSheet(title: item.name, delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: caption)
+            popup.tag = indexPath.row
+            popup.showInView(self.view)
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -143,23 +159,25 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
         let item = self.data![actionSheet.tag]
         println(buttonIndex)
+        
         switch buttonIndex {
-        case 0: //download
-            DDLog.logVerbose("download")
-            if let uri = item.url {
-                self.download(uri)
-            }
-        case 1: // cancel
+        case 0: //cancel
             DDLog.logVerbose("cancel")
-        case 2: // enable
-            DDLog.logVerbose("enable")
-            if let order = item.order {
-                self.enable(order)
-            }
-        case 3: // disable
-            DDLog.logVerbose("disable")
-            if let order = item.order {
-                self.disable(order)
+        case 1: // enable/disable
+            if let enabled = item.enabled {
+                var caption: String!
+                if enabled {
+                    DDLog.logVerbose("disable")
+                    if let order = item.order {
+                        self.disable(order)
+                    }
+                }
+                else {
+                    DDLog.logVerbose("enable")
+                    if let order = item.order {
+                        self.enable(order)
+                    }
+                }
             }
         default:
             DDLog.logVerbose("not implemented")
@@ -173,7 +191,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
         let itemScrap = REMenuItem(title: "scrap torrents", image: nil, highlightedImage: nil, action: { (menuItem: REMenuItem!) -> Void in
             self.scrap()
         })
-        let itemDowbloadTorrents = REMenuItem(title: "download torrents (enabled)", image: nil, highlightedImage: nil, action: { (menuItem: REMenuItem!) -> Void in
+        let itemDowbloadTorrents = REMenuItem(title: "download missing torrents (enabled)", image: nil, highlightedImage: nil, action: { (menuItem: REMenuItem!) -> Void in
             self.downloadAll()
         })
         let itemDisableTorrents = REMenuItem(title: "disable all torrents", image: nil, highlightedImage: nil, action: { (menuItem: REMenuItem!) -> Void in
@@ -196,12 +214,11 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
         
         if let ident = item?.id {
             self.isLoading = true
+            KVNProgress.showWithStatus("Loading ...")
             
             let task = Connect.shared.promiseTask(request)
             task.success { value -> Void in
-                if let jsonString = value.rawString(encoding: NSUTF8StringEncoding, options: NSJSONWritingOptions.allZeros) {
-                    DDLog.logInfo(jsonString)
-                }
+                self.loadTaskData(value)
                 }.failure { error, isCancelled -> Void in
                     if let err = error {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -211,7 +228,12 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
                 }.then { value, errorInfo -> Void in
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.isLoading = false
-                        self.load()
+                        
+                        if let d = self.delegate {
+                            d.torrentListDidChanged(self)
+                        }
+                        
+                        KVNProgress.dismiss()
                     })
             }
         }
@@ -321,6 +343,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
         if let ident = item?.id {
             self.isLoading = true
 
+            KVNProgress.showWithStatus("Loading ...")
             var request: NSURLRequest = Request.research(ident)
             
             let task = Connect.shared.promiseTask(request)
@@ -335,6 +358,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             }.then { value, errorInfo -> Void in
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.isLoading = false
+                    KVNProgress.dismiss()
                 })
             }
         }

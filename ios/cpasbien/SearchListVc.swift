@@ -11,10 +11,12 @@ import SwiftyJSON
 import INSPullToRefresh
 import DTIToastCenter
 import CocoaLumberjack
+import KVNProgress
 
-class SearchListVc: UITableViewController, NewSearchVcDelegate {
+class SearchListVc: UITableViewController, NewSearchVcDelegate, TorrentListVcDelegate {
     private var data: Array<SearchItem>?
     private var isLoading = false
+    private var notifRefresh: NSObjectProtocol?
     
     deinit {
         self.tableView.ins_removePullToRefresh()
@@ -30,9 +32,11 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate {
         // hide empty cell at table bottom
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.allowsMultipleSelectionDuringEditing = false
-
         
         self.tableView.ins_addPullToRefreshWithHeight(60.0, handler: { (sv: UIScrollView!) -> Void in
+            if self.isLoading {
+                return
+            }
             self.dataLoad({ () -> Void in
                 sv.ins_endPullToRefresh()
             })
@@ -51,7 +55,6 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     
@@ -122,6 +125,7 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate {
         if let vc = segue.destinationViewController as? TorrentListVc {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
                 let item = self.data![indexPath.row]
+                vc.delegate = self
                 vc.configure(item: item)
             }
         }
@@ -141,8 +145,16 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate {
     // MARK: - NewSearchVcDelegate
     // -------------------------------------------------------------------------
     func newSearchSuccess(sender: NewSearchVc) {
-        // WARN: display pull to refresh
-        self.dataLoad(nil)
+        // Dispose of any resources that can be recreated.
+        self.tableView.ins_beginPullToRefresh()
+    }
+    
+    // -------------------------------------------------------------------------
+    // MARK: - TorrentListVcDelegate
+    // -------------------------------------------------------------------------
+    func torrentListDidChanged(sender: TorrentListVc) {
+        // Dispose of any resources that can be recreated.
+        self.tableView.ins_beginPullToRefresh()
     }
     
     // -------------------------------------------------------------------------
@@ -153,6 +165,8 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate {
             return
         }
         self.isLoading = true
+        
+        KVNProgress.showWithStatus("Loading ...")
         
         var request: NSURLRequest = Request.researchAll()
         let task = Connect.shared.buildTask(request, completionHandler: { (result: FailableOf<JSON>) -> Void in
@@ -181,6 +195,7 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate {
                 if completion != nil {
                     completion!()
                 }
+                KVNProgress.dismiss()
             })
         })
         task.resume()

@@ -10,6 +10,7 @@ import UIKit
 import CocoaLumberjack
 import SwiftyJSON
 import DTIToastCenter
+import KVNProgress
 
 protocol NewSearchVcDelegate: NSObjectProtocol {
     func newSearchSuccess(sender: NewSearchVc)
@@ -54,6 +55,8 @@ class NewSearchVc: UITableViewController {
             return
         }
         
+        KVNProgress.showWithStatus("Saving ...")
+        
         var request: NSURLRequest = Request.researchCreate(search)
         let task = Connect.shared.buildTask(request, completionHandler: { (result: FailableOf<JSON>) -> Void in
             var taskData = Array<SearchItem>()
@@ -75,6 +78,7 @@ class NewSearchVc: UITableViewController {
                 }
             }
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                KVNProgress.dismiss()
                 //self.isLoading = false
                 
                 //self.data = taskData
