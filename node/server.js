@@ -1,19 +1,19 @@
 // call the packages we need
 var express = require("express");	// call express
-var app = express();				// define our app using express
+var util = require('util');
+var when = require('when');
 var bodyParser = require("body-parser");
+var app = express();				// define our app using express
 var routerResearch = require("./routes/research");
 var routerDs214play = require("./routes/ds214play");
 var routerVersion = express.Router();
-var util = require('util');
 var config = require('./config');
+var routeHelper = require("./routehelper");
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-var port = process.env.PORT || config.serverPort;        // set our port
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -42,8 +42,30 @@ app.use("/api", routerApi);
 routerApi.use("/1", routerVersion);
 routerVersion.use("/research", routerResearch);
 routerVersion.use("/syno", routerDs214play);
+//console.log(util.inspect(routerVersion, {showHidden: true, depth: null}));
 
-// START THE SERVER
-// =============================================================================
-app.listen(port);
-console.log('Running cpasbien server on port ' + port);
+// READ Configuration
+console.log("Loading configuration\n");
+config.load().then(
+	function() {
+		config.print();
+		console.log("");
+
+		var port = process.env.PORT || config.serverPort;        // set our port
+
+		// START THE SERVER
+		// =============================================================================
+		app.listen(port, function() {
+			console.log("Loading Routes \n");
+			//console.log(routerVersion.stack);
+			routeHelper.print("/api/1", routerVersion);
+			routeHelper.print("/api/1/research", routerResearch);
+			routeHelper.print("/api/1/syno", routerDs214play);
+
+			console.log('Running cpasbien server on port ' + port);
+		});
+	},
+	function(error) {
+		console.log(error.message);
+	}
+);

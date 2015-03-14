@@ -1,0 +1,10 @@
+{
+	"serverPort": 8080,
+	"userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.94 Safari/537.36",
+
+	"synoHost": "192.168.1.20",
+	"synoPort": 5000,
+	"synoAccount": "download",
+	"synoPasswd": "download",
+	"synoDownloadDestinationFolder": "downloads"
+}	

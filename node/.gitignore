@@ -4,4 +4,4 @@ node_modules
 db
 work
 torrent
-
+/configuration/config.json
