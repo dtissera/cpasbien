@@ -66,7 +66,7 @@ npm install
 
 ## Command line interface
 
-> All API commands are available threw command line interface
+> All API web methods are available through command line interface
 
 ```bash
 Usage: cpasbien [options]
