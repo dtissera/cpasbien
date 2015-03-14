@@ -150,11 +150,6 @@ SearchInfo.prototype.changeState = function(state, order) {
 				setted = true;
 			}
 		}
-
-		if (!setted) {
-			//errorFct("wrong order !");
-			return;
-		}
 	}
 	else {
 		for (i = 0, len = self.torrentInfos.length; i < len; i++) {

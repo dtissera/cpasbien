@@ -126,6 +126,59 @@ Cmd.prototype.searchUpdate = function(id) {
 	});
 }
 
+Cmd.prototype.searchDisable = function(id, order) {
+	var self = this;
+
+	if (tools.isPositiveInteger(order)) {
+		self.outputHeader(util.format("> disable torrent [%d] for search [%s]", order, id));
+	}
+	else {
+		self.outputHeader(util.format("> disable all torrents for search [%s]", id));
+	}
+
+	api.searchChangeTorrentState(id, false, order).then(
+		function(result) {
+			self.outputResearch(result);
+			self.outputFooter();
+		},
+		self.fail
+	);
+}
+
+Cmd.prototype.searchEnable = function(id, order) {
+	var self = this;
+
+	if (tools.isPositiveInteger(order)) {
+		self.outputHeader(util.format("> enable torrent [%d] for search [%s]", order, id));
+	}
+	else {
+		self.outputHeader(util.format("> enable all torrents for search [%s]", id));
+	}
+
+	api.searchChangeTorrentState(id, true, order).then(
+		function(result) {
+			self.outputResearch(result);
+			self.outputFooter();
+		},
+		self.fail
+	);
+}
+
+Cmd.prototype.searchDownloadMissingTorrentById = function(id) {
+	var self = this;
+
+	self.outputHeader(util.format("> download missing torrents for research [%s]", id));
+
+	api.searchDownloadMissingTorrentById(id).then(
+		function(result) {
+			self.outputResearch(result);
+			self.outputFooter();
+		},
+		self.fail
+	);
+}
+
+
 Cmd.prototype.compactDatabase = function() {
 	var self = this;
 

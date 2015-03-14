@@ -154,6 +154,10 @@ Api.prototype.searchChangeTorrentState = function(id, state, order) {
 				var modifiedOrders = searchInfo.changeState(state, order);
 				var promiseArray = [];
 
+				if (modifiedOrders.length == 0) {
+					errorFct("Cannot find torrent to update !");
+				}
+
 				modifiedOrders.forEach(function(order) {
 					var ti = searchInfo.torrentInfos[order];
 					var p;

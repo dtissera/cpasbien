@@ -12,16 +12,10 @@ program
 	.option('--remove [value]', 'remove search <id>')
 	.option('--create [value]', 'new search <title>')
 	.option('--update [value]', 'update search <id>')
+	.option('--disable [value]', 'disable torrent <id,order?>')
+	.option('--enable [value]', 'enable torrent <id,order?>')
+	.option('--download [value]', 'downloads missing torrents <id>')
 	.option('--compactdb', 'compact database')
-
-	.option('--search [value]', 'search torrents')
-	.option('--id [value]', 'display search <id>')
-	.option('--idraw [value]', 'display raw search <id>')
-	.option('--removeall', 'remove all searches')
-	.option('--disableid [value]', 'disable torrent <id,order?>')
-	.option('--enableid [value]', 'enable torrent <id,order?>')
-	.option('--missingid [value]', 'missing downloads <id>')
-	.option('--downloadid [value]', 'downloads missing torrents <id>')
 	.parse(process.argv);
 
 if (program.list) {
@@ -44,32 +38,20 @@ if (program.update) {
 	cmd.searchUpdate(program.update);
 }
 
-if (program.compactdb) {
-	cmd.compactDatabase();
+if (program.disable) {
+	var arg = program.disable.split(",");
+	cmd.searchDisable(arg[0], arg.length > 1 ? arg[1] : undefined);
 }
 
-
-
-
-if (program.removeall) {
-	dao.removeItems();
+if (program.enable) {
+	var arg = program.enable.split(",");
+	cmd.searchEnable(arg[0], arg.length > 1 ? arg[1] : undefined);
 }
 
-if (program.disableid) {
-	var arg = program.disableid.split(",");
-	dao.cmdItemsChangeState(arg[0], arg.length > 1 ? arg[1] : undefined, false);
+if (program.update) {
+	cmd.searchUpdate(program.update);
 }
 
-if (program.enableid) {
-	var arg = program.enableid.split(",");
-	dao.cmdItemsChangeState(arg[0], arg.length > 1 ? arg[1] : undefined, true);
+if (program.download) {
+	cmd.searchDownloadMissingTorrentById(program.download);
 }
-
-if (program.missingid) {
-	dao.cmdItemMissingDowloads(program.missingid);
-}
-
-if (program.downloadid) {
-	scraper.cmdDownloadMissingTorrentsForId(program.downloadid);
-}
-
