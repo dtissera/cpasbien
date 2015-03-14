@@ -11,7 +11,7 @@ This client use new Apple programming language (Swift)
 
 ## Installation
 Install dependances provided in `package.json` 
-Go to node folder
+Go to `node` folder
 ```bash
 npm install
 ```
@@ -63,3 +63,20 @@ npm install
 
 - [GET    /check](https://github.com/dtissera/cpasbien/wiki/Syno-:-check)
 - [POST   /download](https://github.com/dtissera/cpasbien/wiki/Syno-:-send-torrent-file-to-the-NAS-Download-Station)
+
+# IOS Client
+## Requirements
+- xcode 6.2
+- [CocoaPods](http://cocoapods.org/) 0.36.0
+
+## Installation
+Install dependances provided in `Podfile` 
+Go to `ios` folder
+```bash
+pod install
+```
+
+## Configuration
+1. Go to folder: `cpasbien/ios/`
+2. open workspace file: `cpasbien.xcworkspace`
+3. 
