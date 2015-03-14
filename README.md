@@ -93,4 +93,4 @@ class Configuration {
 }
 ```
 
-4. Switch from LOCAL to RELEASE build by customizing your Scheme (Debug -> DebugLocal)
+> Switch from LOCAL to RELEASE build by customizing your Scheme (Debug -> DebugLocal)
