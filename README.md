@@ -5,7 +5,7 @@ The application allows to send torrents to your Synlogy download station with Sy
 An IOS client is provided to exploit Node REST API.
 This client use new Apple programming language (Swift)
 
-![iOSApp](https://github.com/dtissera/cpasbien/blob/master/shots/IMG_2433.PNG)
+![iOSApp](https://github.com/dtissera/cpasbien/blob/master/shots/IMG_2433_small.PNG)
 
 # NodeJs
 ## Requirements
