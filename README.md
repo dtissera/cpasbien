@@ -59,6 +59,25 @@ npm install
 - [POST   /enable](https://github.com/dtissera/cpasbien/wiki/Research-:-enable-one-all-torrents-from-a-search)
 - [POST   /download](https://github.com/dtissera/cpasbien/wiki/Research-:-download-all-torrents-with-state-enabled-from-a-search)
 
+## Command line interface
+```bash
+Usage: cpasbien [options]
+
+  Options:
+
+    -h, --help          output usage information
+    -V, --version       output the version number
+    --list              list research
+    --id [value]        display search <id>
+    --remove [value]    remove search <id>
+    --create [value]    new search <title>
+    --update [value]    update search <id>
+    --disable [value]   disable torrent <id,order?>
+    --enable [value]    enable torrent <id,order?>
+    --download [value]  downloads missing torrents <id>
+    --compactdb         compact database
+```
+
 ### /api/1/syno
 
 - [GET    /check](https://github.com/dtissera/cpasbien/wiki/Syno-:-check)
