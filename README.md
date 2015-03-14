@@ -59,7 +59,15 @@ npm install
 - [POST   /enable](https://github.com/dtissera/cpasbien/wiki/Research-:-enable-one-all-torrents-from-a-search)
 - [POST   /download](https://github.com/dtissera/cpasbien/wiki/Research-:-download-all-torrents-with-state-enabled-from-a-search)
 
+### /api/1/syno
+
+- [GET    /check](https://github.com/dtissera/cpasbien/wiki/Syno-:-check)
+- [POST   /download](https://github.com/dtissera/cpasbien/wiki/Syno-:-send-torrent-file-to-the-NAS-Download-Station)
+
 ## Command line interface
+
+> All API commands are available threw command line interface
+
 ```bash
 Usage: cpasbien [options]
 
@@ -77,11 +85,6 @@ Usage: cpasbien [options]
     --download [value]  downloads missing torrents <id>
     --compactdb         compact database
 ```
-
-### /api/1/syno
-
-- [GET    /check](https://github.com/dtissera/cpasbien/wiki/Syno-:-check)
-- [POST   /download](https://github.com/dtissera/cpasbien/wiki/Syno-:-send-torrent-file-to-the-NAS-Download-Station)
 
 # IOS Client
 ## Requirements
