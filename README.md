@@ -78,5 +78,19 @@ pod install
 
 ## Configuration
 1. Go to folder: `cpasbien/ios/`
-2. open workspace file: `cpasbien.xcworkspace`
-3. 
+2. Open workspace file: `cpasbien.xcworkspace`
+3. Customize file: `Configuration.swift` according to your node config (server IP and port)
+
+```
+class Configuration {
+    struct Consts {
+        #if LOCAL
+        static let serverUrl = "http://127.0.0.1:8080/api/1/"
+        #else
+        static let serverUrl = "http://192.168.1.20:8080/api/1/"
+        #endif
+    }
+}
+```
+
+4. Switch from LOCAL to RELEASE build by customizing your Scheme (Debug -> DebugLocal)
