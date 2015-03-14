@@ -29,14 +29,9 @@ class Request {
         private var url: NSURL?
         
         init() {
-            #if LOCAL
-            let root = "http://127.0.0.1:8080/api/1/"
-            #else
-            let root = "http://192.168.1.20:8080/api/1/"
-            #endif
-            self.url = NSURL(string: root)
+            self.url = NSURL(string: Configuration.Consts.serverUrl)
             
-            DDLog.logInfo("root=\(root)")
+            DDLog.logInfo("root=\(Configuration.Consts.serverUrl)")
         }
         
         func research() -> RestUrlFactory {

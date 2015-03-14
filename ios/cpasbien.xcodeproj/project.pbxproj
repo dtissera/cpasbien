@@ -20,6 +20,7 @@
 		254232701A9A5312002A1D9B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542326F1A9A5312002A1D9B /* Request.swift */; };
 		254232721A9A5451002A1D9B /* Connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254232711A9A5451002A1D9B /* Connect.swift */; };
 		2546AA881A9A687E00E0287B /* SearchListVcCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2546AA871A9A687E00E0287B /* SearchListVcCell.swift */; };
+		254CC8F31AB43E260005D581 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254CC8F21AB43E260005D581 /* Configuration.swift */; };
 		2550A9DC1A9FC057004787D2 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2550A9DB1A9FC057004787D2 /* NSDate+Extension.swift */; };
 		2550A9DE1A9FC857004787D2 /* TorrentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2550A9DD1A9FC857004787D2 /* TorrentItem.swift */; };
 		255553431AA0C87D003E5107 /* RearListVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255553421AA0C87D003E5107 /* RearListVc.swift */; };
@@ -67,6 +68,7 @@
 		2542326F1A9A5312002A1D9B /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		254232711A9A5451002A1D9B /* Connect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connect.swift; sourceTree = "<group>"; };
 		2546AA871A9A687E00E0287B /* SearchListVcCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchListVcCell.swift; sourceTree = "<group>"; };
+		254CC8F21AB43E260005D581 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		2550A9DB1A9FC057004787D2 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
 		2550A9DD1A9FC857004787D2 /* TorrentItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TorrentItem.swift; sourceTree = "<group>"; };
 		255553421AA0C87D003E5107 /* RearListVc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearListVc.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 		254232451A9A4BD7002A1D9B /* cpasbien */ = {
 			isa = PBXGroup;
 			children = (
+				254CC8F21AB43E260005D581 /* Configuration.swift */,
 				25955EF51A9FB093001AE446 /* Business */,
 				254232681A9A4DA2002A1D9B /* Utils */,
 				251FAA521AA08F07000F2C87 /* CocoaLumberjack */,
@@ -396,6 +399,7 @@
 				25B67FE01AA30197002DC89F /* Tools.swift in Sources */,
 				25CA181D1AA1C3D5001A80B3 /* HomeVc.swift in Sources */,
 				251FAA561AA08F07000F2C87 /* CocoaLumberjackSwift.swift in Sources */,
+				254CC8F31AB43E260005D581 /* Configuration.swift in Sources */,
 				255553431AA0C87D003E5107 /* RearListVc.swift in Sources */,
 				25955EF71A9FB0AD001AE446 /* SearchItem.swift in Sources */,
 				25CA18251AA21F78001A80B3 /* NewSearchVc.swift in Sources */,
