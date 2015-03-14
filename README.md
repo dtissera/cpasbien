@@ -20,13 +20,14 @@ npm install
 1. Go to folder: `cpasbien/node/configuration/`
 2. Clone file `config-orig.json` to `config.json`
 3. Customize values
-- serverPort: node Rest Api server port
-- userAgent: user agent that will be uses during scraping process
-- synoHost: IP adress of your synology NAS
-- synoPort: Port of your synology admin interface, by default 5000
-- synoAccount: Account user of your diskstation. I recommand to use your usual account name because downloads won't be visible to every users if you don't have true rights.
-- synoPasswd: Password of your syno account
-- synoDownloadDestinationFolder: Torrents will be download to your destination folder. You should use the same folder than DownloadSation to avoid permissions errors.
+
+> - serverPort: node Rest Api server port
+> - userAgent: user agent that will be uses during scraping process
+> - synoHost: IP adress of your synology NAS
+> - synoPort: Port of your synology admin interface, by default 5000
+> - synoAccount: Account user of your diskstation. I recommand to use your usual account name because downloads won't be visible to every users if you don't have true rights.
+> - synoPasswd: Password of your syno account
+> - synoDownloadDestinationFolder: Torrents will be download to your destination folder. You should use the same folder than DownloadSation to avoid permissions errors.
 
 ```json
 {
