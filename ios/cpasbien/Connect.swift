@@ -39,7 +39,18 @@ public class Connect: NSObject, NSURLSessionDelegate {
         var res: String? = nil
         if let errorData = data {
             let json = JSON(data: errorData)
-            res = json.rawString()
+            if let jsonError = json.error {
+                res = jsonError.localizedDescription
+            }
+            else {
+                if let msg = json["message"].string {
+                    res = msg
+                }
+                else {
+                    res = json.rawString()
+                }
+            }
+            
         }
         
         return res
