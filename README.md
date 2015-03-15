@@ -43,6 +43,8 @@ npm install
 	"synoDownloadDestinationFolder": "downloads"
 }	
 ```
+## Hosting
+[Hosting Guide](https://github.com/dtissera/cpasbien/wiki/Node:-hosting)
 
 ## REST API
 
