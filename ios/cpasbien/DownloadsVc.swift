@@ -13,7 +13,7 @@ import DTIToastCenter
 import SwiftTask
 import KVNProgress
 
-class DownloadsVc: UITableViewController {
+class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDelegate {
 
     private var isLoading_ = false
     private var isLoading: Bool {
@@ -80,8 +80,8 @@ class DownloadsVc: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
         if let file = self.pathItem?.files[indexPath.row] {
-            if file.isdir ?? false {
-                if let name = file.name {
+            if let name = file.name {
+                if file.isdir ?? false {
                     if name != ".." {
                         paths.append(name)
                     }
@@ -91,11 +91,52 @@ class DownloadsVc: UITableViewController {
                     
                     self.load()
                 }
+                else {
+                    let popup = UIActionSheet(title: name, delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "rename")
+                    popup.tag = indexPath.row
+                    popup.showInView(self.view)
+                }
             }
         }
     }
 
+    // -------------------------------------------------------------------------
+    // MARK: - UIActionSheetDelegate
+    // -------------------------------------------------------------------------
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        if let file = self.pathItem?.files[actionSheet.tag] {
+            DDLog.logDebug("buttonIndex: \(buttonIndex)")
+            
+            switch buttonIndex {
+            case 0: //cancel
+                DDLog.logVerbose("cancel")
+            case 1: // rename
+                DDLog.logVerbose("rename")
+                
+                if let nav = MainObject.shared.storyBoardMain.instantiateViewControllerWithIdentifier("navRenameFileVc") as? UINavigationController {
+                    if let vc = nav.topViewController as? RenameFileVc {
+                        var path = "/" + (file.name ?? "")
+                        if self.paths.count > 0 {
+                            path = "/" + join("/", self.paths) + path
+                        }
+                        vc.delegate = self
+                        vc.file = RenameFileVc.FileItem(path: path, name: file.name ?? "")
+                    }
+                    self.presentViewController(nav, animated: true, completion: nil)
+                }
+            default:
+                DDLog.logVerbose("not implemented")
+            }
+        }
+    }
 
+    // -------------------------------------------------------------------------
+    // MARK: - RenameFileVcDelegate
+    // -------------------------------------------------------------------------
+    func renameFileVcDidSuccess(sender: RenameFileVc) {
+        self.load()
+    }
+    
     // -------------------------------------------------------------------------
     // MARK: - private methods
     // -------------------------------------------------------------------------
