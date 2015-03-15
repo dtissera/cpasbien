@@ -25,7 +25,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
     @IBOutlet weak var outletLabelModified: UILabel!
     @IBOutlet weak var outletLabelId: UILabel!
 
-    private var item: SearchItem? {
+    private var searchItem: SearchItem? {
         didSet {
             updateView()
         }
@@ -33,7 +33,22 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
 
     private var data: Array<TorrentItem>?
     private var menu: REMenu?
-    private var isLoading = false
+
+    private var isLoading_ = false
+    private var isLoading: Bool {
+        get {
+            var read: Bool!
+            Tools.sync(self) {
+                read = self.isLoading_
+            }
+            return read
+        }
+        set {
+            Tools.sync(self) {
+                self.isLoading_ = newValue
+            }
+        }
+    }
     
     var delegate: TorrentListVcDelegate?
     
@@ -80,7 +95,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
         outletLabelAdded.text = ""
         outletLabelModified.text = ""
         outletLabelId.text = ""
-        if let itemObject = item {
+        if let itemObject = searchItem {
             if let text = itemObject.id {
                 outletLabelId.text = text
             }
@@ -212,30 +227,35 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             return
         }
         
-        if let ident = item?.id {
+        if let ident = self.searchItem?.id {
             self.isLoading = true
             KVNProgress.showWithStatus("Loading ...")
             
             let task = Connect.shared.promiseTask(request)
             task.success { value -> Void in
-                self.loadTaskData(value)
-                }.failure { error, isCancelled -> Void in
-                    if let err = error {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            DTIToastCenter.defaultCenter.makeText(err.localizedDescription)
-                        })
-                    }
-                }.then { value, errorInfo -> Void in
+                self.loadTaskData(value) { (searchItem, data) -> Void in
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.isLoading = false
+                        self.searchItem = searchItem
+                        self.data = data
+                        self.updateView()
                         
                         if let d = self.delegate {
                             d.torrentListDidChanged(self)
                         }
                         
+                        self.isLoading = false
                         KVNProgress.dismiss()
                     })
-            }
+                }
+                }.failure { error, isCancelled -> Void in
+                    if let err = error {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            DTIToastCenter.defaultCenter.makeText(err.localizedDescription)
+                            self.isLoading = false
+                            KVNProgress.dismiss()
+                        })
+                    }
+                }
         }
     }
     
@@ -245,7 +265,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             return
         }
         
-        if let ident = item?.id {
+        if let ident = self.searchItem?.id {
             self.restAction(Request.researchUpdate(ident))
         }
     }
@@ -256,7 +276,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             return
         }
         
-        if let ident = item?.id {
+        if let ident = self.searchItem?.id {
             self.restAction(Request.researchDisable(ident, order: nil))
         }
     }
@@ -267,7 +287,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             return
         }
         
-        if let ident = item?.id {
+        if let ident = self.searchItem?.id {
             self.restAction(Request.researchDisable(ident, order: order))
         }
     }
@@ -278,7 +298,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             return
         }
         
-        if let ident = item?.id {
+        if let ident = self.searchItem?.id {
             self.restAction(Request.researchEnable(ident, order: nil))
         }
     }
@@ -289,7 +309,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             return
         }
         
-        if let ident = item?.id {
+        if let ident = self.searchItem?.id {
             self.restAction(Request.researchEnable(ident, order: order))
         }
     }
@@ -309,12 +329,12 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             return
         }
         
-        if let ident = item?.id {
+        if let ident = self.searchItem?.id {
             self.restAction(Request.researchDownload(ident))
         }
     }
     
-    private func loadTaskData(jsonData: JSON) {
+    private func loadTaskData(jsonData: JSON, closure: (searchItem: SearchItem, data: Array<TorrentItem>) -> Void) {
         var taskData = Array<TorrentItem>()
         var taskItem = SearchItem(json: jsonData)
         
@@ -326,11 +346,13 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             }
         }
         
+        closure(searchItem: taskItem, data: taskData)
+        /*
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.item = taskItem
+            self.searchItem = taskItem
             self.data = taskData
             self.updateView()
-        })
+        })*/
 
     }
     
@@ -340,7 +362,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             return
         }
         
-        if let ident = item?.id {
+        if let ident = self.searchItem?.id {
             self.isLoading = true
 
             KVNProgress.showWithStatus("Loading ...")
@@ -348,18 +370,24 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
             
             let task = Connect.shared.promiseTask(request)
             task.success { value -> Void in
-                self.loadTaskData(value)
+                self.loadTaskData(value) { (searchItem, data) -> Void in
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.searchItem = searchItem
+                        self.data = data
+                        self.updateView()
+                        
+                        self.isLoading = false
+                        KVNProgress.dismiss()
+                    })
+                }
             }.failure { error, isCancelled -> Void in
                 if let err = error {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         DTIToastCenter.defaultCenter.makeText(err.localizedDescription)
+                        self.isLoading = false
+                        KVNProgress.dismiss()
                     })
                 }
-            }.then { value, errorInfo -> Void in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.isLoading = false
-                    KVNProgress.dismiss()
-                })
             }
         }
     }
@@ -368,7 +396,7 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
     // MARK: - public methods
     // -------------------------------------------------------------------------
     func configure(#item: SearchItem) {
-        self.item = item
+        self.searchItem = item
     }
 
     func displayMenu(sender: AnyObject) {

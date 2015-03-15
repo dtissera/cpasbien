@@ -17,4 +17,10 @@ class Tools {
             ),
             dispatch_get_main_queue(), closure)
     }
+    
+    class func sync(lock: AnyObject, closure: () -> Void) {
+        objc_sync_enter(lock)
+        closure()
+        objc_sync_exit(lock)
+    }
 }
