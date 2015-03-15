@@ -263,7 +263,7 @@
                         <sections>
                             <tableViewSection id="8Eg-WV-0OV">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Y4u-U6-guv" detailTextLabel="4Jq-Go-Kpf" style="IBUITableViewCellStyleSubtitle" id="cFc-fF-chw">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellConnectivity" textLabel="Y4u-U6-guv" detailTextLabel="4Jq-Go-Kpf" style="IBUITableViewCellStyleSubtitle" id="cFc-fF-chw">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cFc-fF-chw" id="mPt-Dz-xpk">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -283,6 +283,23 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellDownloads" textLabel="jC3-Wv-uHh" style="IBUITableViewCellStyleDefault" id="fMr-fz-SWA">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fMr-fz-SWA" id="u2I-Mc-jRZ">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="downloads" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jC3-Wv-uHh">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="fYm-Tf-uw4" kind="show" id="TRI-Iz-3KH"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -300,6 +317,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HIS-e1-Ssb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1831" y="1625"/>
+        </scene>
+        <!--DownloadsVc-->
+        <scene sceneID="3Uc-Yr-NYm">
+            <objects>
+                <tableViewController storyboardIdentifier="DownloadsVc" id="fYm-Tf-uw4" userLabel="DownloadsVc" customClass="DownloadsVc" customModule="cpasbien" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="RgU-7h-QkC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DownloadsVcCellId" textLabel="AVD-H0-oSb" style="IBUITableViewCellStyleDefault" id="dZW-tg-Kee" userLabel="DownloadsVcCell" customClass="DownloadsVcCell" customModule="cpasbien" customModuleProvider="target">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dZW-tg-Kee" id="29X-Sc-jBi">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AVD-H0-oSb">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="fYm-Tf-uw4" id="2w2-VP-UUc"/>
+                            <outlet property="delegate" destination="fYm-Tf-uw4" id="rm7-6B-rOV"/>
+                        </connections>
+                    </tableView>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ENR-dA-hXC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2230" y="1625"/>
         </scene>
         <!--NewSearchVc-->
         <scene sceneID="9Xf-wo-1yW">

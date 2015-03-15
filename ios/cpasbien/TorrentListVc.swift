@@ -85,41 +85,6 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
 
     }
     
-    func updateView() {
-        if !self.isViewLoaded() {
-            return
-        }
-        self.title = "?"
-        outletLabelNbTorrents.text = ""
-        outletLabelMissingDownloads.text = ""
-        outletLabelAdded.text = ""
-        outletLabelModified.text = ""
-        outletLabelId.text = ""
-        if let itemObject = searchItem {
-            if let text = itemObject.id {
-                outletLabelId.text = text
-            }
-            if let text = itemObject.research {
-                self.title = text
-            }
-            if let count = itemObject.count {
-                outletLabelNbTorrents.text = "\(count) torrent(s)"
-            }
-            if let count = itemObject.missingCount {
-                if count > 0 {
-                    outletLabelMissingDownloads.text = "\(count)"
-                }
-            }
-            if let date = itemObject.added {
-                outletLabelAdded.text = "Added: \(date.toString())"
-            }
-            if let date = itemObject.updated {
-                outletLabelModified.text = "Modified: \(date.toString())"
-            }
-        }
-        self.tableView.reloadData()
-    }
-
     // -------------------------------------------------------------------------
     // MARK: - UITableViewDataSource
     // -------------------------------------------------------------------------
@@ -202,6 +167,41 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
     // -------------------------------------------------------------------------
     // MARK: - private methods
     // -------------------------------------------------------------------------
+    private func updateView() {
+        if !self.isViewLoaded() {
+            return
+        }
+        self.title = "?"
+        outletLabelNbTorrents.text = ""
+        outletLabelMissingDownloads.text = ""
+        outletLabelAdded.text = ""
+        outletLabelModified.text = ""
+        outletLabelId.text = ""
+        if let itemObject = searchItem {
+            if let text = itemObject.id {
+                outletLabelId.text = text
+            }
+            if let text = itemObject.research {
+                self.title = text
+            }
+            if let count = itemObject.count {
+                outletLabelNbTorrents.text = "\(count) torrent(s)"
+            }
+            if let count = itemObject.missingCount {
+                if count > 0 {
+                    outletLabelMissingDownloads.text = "\(count)"
+                }
+            }
+            if let date = itemObject.added {
+                outletLabelAdded.text = "Added: \(date.toString())"
+            }
+            if let date = itemObject.updated {
+                outletLabelModified.text = "Modified: \(date.toString())"
+            }
+        }
+        self.tableView.reloadData()
+    }
+
     private func configureMenu() {
         let itemScrap = REMenuItem(title: "scrap torrents", image: nil, highlightedImage: nil, action: { (menuItem: REMenuItem!) -> Void in
             self.scrap()
@@ -314,15 +314,6 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
         }
     }
 
-    private func download(uri: String) {
-        DDLog.logInfo("uri=\(uri)")
-        if self.isLoading {
-            return
-        }
-        
-        self.restAction(Request.synoDownload(uri))
-    }
-
     private func downloadAll() {
         DDLog.logInfo("...")
         if self.isLoading {
@@ -347,13 +338,6 @@ class TorrentListVc: UITableViewController, UIActionSheetDelegate {
         }
         
         closure(searchItem: taskItem, data: taskData)
-        /*
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.searchItem = taskItem
-            self.data = taskData
-            self.updateView()
-        })*/
-
     }
     
     private func load() {

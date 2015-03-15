@@ -37,6 +37,9 @@
 		25CA18231AA1EDF1001A80B3 /* RearListVcCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CA18221AA1EDF1001A80B3 /* RearListVcCell.swift */; };
 		25CA18251AA21F78001A80B3 /* NewSearchVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CA18241AA21F78001A80B3 /* NewSearchVc.swift */; };
 		25CE5CAB1A9FD2CB00891AA5 /* TorrentListVcCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CE5CAA1A9FD2CB00891AA5 /* TorrentListVcCell.swift */; };
+		25D121481AB5D879008E9E7F /* DownloadsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D121471AB5D879008E9E7F /* DownloadsVc.swift */; };
+		25D1214A1AB5DDB1008E9E7F /* SynoPathItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D121491AB5DDB1008E9E7F /* SynoPathItem.swift */; };
+		25D1214C1AB5E7F0008E9E7F /* DownloadsVcCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1214B1AB5E7F0008E9E7F /* DownloadsVcCell.swift */; };
 		54BFB0E5C4636632526AC1C2 /* Pods_cpasbien.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C3E79E4E718FB95ECD4672 /* Pods_cpasbien.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -86,6 +89,9 @@
 		25CA18221AA1EDF1001A80B3 /* RearListVcCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearListVcCell.swift; sourceTree = "<group>"; };
 		25CA18241AA21F78001A80B3 /* NewSearchVc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSearchVc.swift; sourceTree = "<group>"; };
 		25CE5CAA1A9FD2CB00891AA5 /* TorrentListVcCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TorrentListVcCell.swift; sourceTree = "<group>"; };
+		25D121471AB5D879008E9E7F /* DownloadsVc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsVc.swift; sourceTree = "<group>"; };
+		25D121491AB5DDB1008E9E7F /* SynoPathItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynoPathItem.swift; sourceTree = "<group>"; };
+		25D1214B1AB5E7F0008E9E7F /* DownloadsVcCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsVcCell.swift; sourceTree = "<group>"; };
 		95C3E79E4E718FB95ECD4672 /* Pods_cpasbien.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cpasbien.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F7149425F2C57B91CCDFCB /* Pods-cpasbien.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cpasbien.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cpasbien/Pods-cpasbien.debug.xcconfig"; sourceTree = "<group>"; };
 		CA4D1B4737C8B312846B70B3 /* Pods-cpasbien.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cpasbien.release.xcconfig"; path = "Pods/Target Support Files/Pods-cpasbien/Pods-cpasbien.release.xcconfig"; sourceTree = "<group>"; };
@@ -148,6 +154,8 @@
 				254232681A9A4DA2002A1D9B /* Utils */,
 				251FAA521AA08F07000F2C87 /* CocoaLumberjack */,
 				254232481A9A4BD7002A1D9B /* AppDelegate.swift */,
+				25D121471AB5D879008E9E7F /* DownloadsVc.swift */,
+				25D1214B1AB5E7F0008E9E7F /* DownloadsVcCell.swift */,
 				25CA181E1AA1DE54001A80B3 /* MainObject.swift */,
 				254232691A9A5129002A1D9B /* SearchListVc.swift */,
 				2546AA871A9A687E00E0287B /* SearchListVcCell.swift */,
@@ -214,6 +222,7 @@
 			children = (
 				25955EF61A9FB0AD001AE446 /* SearchItem.swift */,
 				2550A9DD1A9FC857004787D2 /* TorrentItem.swift */,
+				25D121491AB5DDB1008E9E7F /* SynoPathItem.swift */,
 			);
 			name = Business;
 			sourceTree = "<group>";
@@ -404,12 +413,15 @@
 				25955EF71A9FB0AD001AE446 /* SearchItem.swift in Sources */,
 				25CA18251AA21F78001A80B3 /* NewSearchVc.swift in Sources */,
 				2550A9DC1A9FC057004787D2 /* NSDate+Extension.swift in Sources */,
+				25D121481AB5D879008E9E7F /* DownloadsVc.swift in Sources */,
 				254232701A9A5312002A1D9B /* Request.swift in Sources */,
 				2542326E1A9A51FC002A1D9B /* Failable.swift in Sources */,
 				251FAA591AA0B50D000F2C87 /* DTILogFormatter.swift in Sources */,
 				254232721A9A5451002A1D9B /* Connect.swift in Sources */,
+				25D1214A1AB5DDB1008E9E7F /* SynoPathItem.swift in Sources */,
 				25CE5CAB1A9FD2CB00891AA5 /* TorrentListVcCell.swift in Sources */,
 				25CA181F1AA1DE54001A80B3 /* MainObject.swift in Sources */,
+				25D1214C1AB5E7F0008E9E7F /* DownloadsVcCell.swift in Sources */,
 				2542326A1A9A5129002A1D9B /* SearchListVc.swift in Sources */,
 				25AE83941AA3C64900D2195E /* SynoVc.swift in Sources */,
 				254232491A9A4BD7002A1D9B /* AppDelegate.swift in Sources */,

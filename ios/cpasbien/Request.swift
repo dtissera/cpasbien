@@ -24,6 +24,7 @@ class Request {
             static let REST_SYNO = "syno"
             static let REST_SYNO_CHECK = "check"
             static let REST_SYNO_DOWNLOAD = "download"
+            static let REST_SYNO_LIST = "list"
         }
         
         private var url: NSURL?
@@ -107,6 +108,13 @@ class Request {
         func download() -> RestUrlFactory {
             if let url = self.url {
                 self.url = url.URLByAppendingPathComponent(Consts.REST_SYNO_DOWNLOAD)
+            }
+            return self
+        }
+        
+        func list() -> RestUrlFactory {
+            if let url = self.url {
+                self.url = url.URLByAppendingPathComponent(Consts.REST_SYNO_LIST)
             }
             return self
         }
@@ -282,17 +290,17 @@ class Request {
         return req
     }
     
-    class func synoDownload(uri: String) -> NSMutableURLRequest {
-        DDLog.logInfo("uri=\(uri)")
+    class func synoList(path: String) -> NSMutableURLRequest {
+        DDLog.logInfo("path=\(path)")
         var restUrlFactory = RestUrlFactory()
         
-        var req = NSMutableURLRequest(URL: restUrlFactory.syno().download().toUrl())
+        var req = NSMutableURLRequest(URL: restUrlFactory.syno().list().toUrl())
         req.HTTPMethod = "POST"
         req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         req.setValue("application/json", forHTTPHeaderField: "Accept")
         
         var components = NSURLComponents()
-        components.queryItems = [NSURLQueryItem(name: "uri", value: uri)]
+        components.queryItems = [NSURLQueryItem(name: "path", value: path)]
         if let query = components.percentEncodedQuery  {
             req.HTTPBody = query.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
         }

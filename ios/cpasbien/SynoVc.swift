@@ -83,4 +83,12 @@ class SynoVc: UITableViewController {
         }
     }
 
+    // -------------------------------------------------------------------------
+    // MARK: - Navigation
+    // -------------------------------------------------------------------------
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let vc = segue.destinationViewController as? DownloadsVc {
+        }
+    }
+
 }

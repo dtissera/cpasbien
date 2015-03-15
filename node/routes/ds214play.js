@@ -1,5 +1,6 @@
 var express = require('express');
 var syno = require('../syno');
+var config = require('../config');
 var when = require('when');
 var router = express.Router();
 var util = require('util');
@@ -31,6 +32,22 @@ router.route('/download')
 	.post(function(req, res) {
 		console.log(util.format("%s %s", req.method, req.originalUrl));
 		syno.apiCreate(req.body.uri).then(
+			function(result) {
+				res.json(result);
+			},
+			function(error) {
+				errorManager.handleError500(error, res);
+			}
+		);
+	});
+
+router.route('/list')
+	.post(function(req, res) {
+		console.log(util.format("%s %s", req.method, req.originalUrl));
+
+		var path = util.format("/%s%s", config.synoDownloadDestinationFolder, req.body.path);
+
+		syno.apiList(path).then(
 			function(result) {
 				res.json(result);
 			},

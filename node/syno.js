@@ -7,7 +7,8 @@ var config = require('./config');
 var Syno = function() {
 	this.session = "DownloadStation";
 
-	this.download_url = util.format("http://%s:%d/webapi/DownloadStation/task.cgi", config.synoHost, config.synoPort);
+	this.downloadStation_url = util.format("http://%s:%d/webapi/DownloadStation/task.cgi", config.synoHost, config.synoPort);
+	this.fileStation_url = util.format("http://%s:%d/webapi/FileStation/file_share.cgi", config.synoHost, config.synoPort);
     this.auth_url = util.format("http://%s:%d/webapi/auth.cgi", config.synoHost, config.synoPort);
 }
 
@@ -113,7 +114,7 @@ Syno.prototype.create = function(sid, uri) {
 	var self = this;
 
 	var options = {
-		url: self.download_url,
+		url: self.downloadStation_url,
 		json: true,
 		method: 'GET',
 		qs: {
@@ -145,17 +146,54 @@ Syno.prototype.create = function(sid, uri) {
 	return promise;
 }
 
+Syno.prototype.list = function(sid, path) {
+	var self = this;
+
+	var options = {
+		url: self.fileStation_url,
+		json: true,
+		method: 'GET',
+		qs: {
+			api: "SYNO.FileStation.List",
+			version: "1",
+			method: "list",
+			folder_path: path,
+			additional: 'real_path,size',
+			sort_by: 'name',
+			_sid: sid
+		}
+	};
+	var promise = when.promise(function(resolve, reject) {
+		request(options, function (error, response, obj) {
+			if (!error && response.statusCode == 200) {
+				if (obj.success) {
+					resolve(obj);
+				}
+				else {
+					var err = self.errorFromCode(obj.error.code);
+					reject(new Error(err));
+				}
+			}
+			else {
+				var err = tools.extractHttpError(error, response);
+				reject(new Error(err));
+			}
+		});
+	});
+	return promise;
+}
+
 /*
  * For api
  */
-Syno.prototype.apiCreate = function(uri) {
+Syno.prototype.apiList = function(path) {
 	var self = this;
 	var promise = when.promise(function(resolve, reject) {
 		self.login().then(
 			function(result) {
-				var sid = result;
+				var sid = result.sid;
 
-				self.create(sid, uri).then(
+				self.list(sid, path).then(
 					function(result) {
 						resolve(result);
 					},
