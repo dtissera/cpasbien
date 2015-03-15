@@ -35,6 +35,7 @@ class MainObject {
     
     init() {
         #if DEBUG
+            /*
             for family in UIFont.familyNames() {
                 if let familyName = family as? String {
                     println(familyName)
@@ -44,14 +45,7 @@ class MainObject {
                         }
                     }
                 }
-                /*
-                if let familyArray = family as? Array<String> {
-                    for familyName in familyArray {
-                        let fontNames = UIFont.fontNamesForFamilyName(familyName)
-                        println(fontNames)
-                    }
-                }*/
-            }
+            }*/
         #endif
     }
     

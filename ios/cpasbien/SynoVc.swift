@@ -17,6 +17,10 @@ class SynoVc: UITableViewController {
 
     private var isLoading = false
     
+    deinit {
+        DDLog.logDebug("~ctor")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

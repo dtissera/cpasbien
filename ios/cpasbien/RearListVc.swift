@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class RearListVc: UITableViewController {
     @IBOutlet weak var outletCellHome: RearListVcCell!
     @IBOutlet weak var outletCellSyno: RearListVcCell!
     @IBOutlet weak var outletCellCpasbien: RearListVcCell!
     
+    deinit {
+        DDLog.logDebug("~ctor")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,27 +34,37 @@ class RearListVc: UITableViewController {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+            DDLog.logDebug(String(format: "cell: %@", cell.reuseIdentifier ?? "?"))
+            
             let frontVc = self.revealViewController().frontViewController
-            var newFrontNav: UINavigationController? = nil
+            var newFrontNav: UINavigationController!
             if let nav = frontVc as? UINavigationController {
                 var sameVc = false
+                var newFrontNavIdentifier: String!
+                
+                DDLog.logDebug(String(format: "topViewController: %@", NSStringFromClass(nav.topViewController.classForCoder)))
                 if cell == outletCellHome {
                     sameVc = nav.topViewController is HomeVc
-                    newFrontNav = MainObject.shared.storyBoardMain.instantiateViewControllerWithIdentifier("navHomeVcId") as UINavigationController?
+                    newFrontNavIdentifier = "navHomeVcId"
                 }
                 else if cell == outletCellSyno {
                     sameVc = nav.topViewController is SynoVc
-                    newFrontNav = MainObject.shared.storyBoardMain.instantiateViewControllerWithIdentifier("navSynoVcId") as UINavigationController?
+                    newFrontNavIdentifier = "navSynoVcId"
                 }
                 else if cell == outletCellCpasbien {
                     sameVc = nav.topViewController is SearchListVc
-                    newFrontNav = MainObject.shared.storyBoardMain.instantiateViewControllerWithIdentifier("navSearchListVcId") as UINavigationController?
+                    newFrontNavIdentifier = "navSearchListVcId"
                 }
                 
                 if sameVc {
                     newFrontNav = nav
                 }
-                self.revealViewController().pushFrontViewController(newFrontNav!, animated: true)
+                else {
+                    newFrontNav = MainObject.shared.storyBoardMain.instantiateViewControllerWithIdentifier(newFrontNavIdentifier) as UINavigationController
+                    
+                }
+                
+                self.revealViewController().pushFrontViewController(newFrontNav, animated: true)
             }
         }
     }

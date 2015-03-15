@@ -22,6 +22,10 @@ class NewSearchVc: UITableViewController {
 
     var delegate: NewSearchVcDelegate?
     
+    deinit {
+        DDLog.logDebug("~ctor")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

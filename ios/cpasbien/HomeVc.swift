@@ -32,6 +32,10 @@ class HomeVc: UITableViewController {
     
     private var isCheckingApi = false
     
+    deinit {
+        DDLog.logDebug("~ctor")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

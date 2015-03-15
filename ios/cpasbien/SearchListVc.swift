@@ -19,6 +19,7 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate, TorrentListVcDel
     private var notifRefresh: NSObjectProtocol?
     
     deinit {
+        DDLog.logDebug("~ctor")
         self.tableView.ins_removePullToRefresh()
     }
     
