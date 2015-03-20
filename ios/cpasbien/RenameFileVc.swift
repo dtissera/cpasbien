@@ -138,6 +138,9 @@ class RenameFileVc: UITableViewController {
         }
         
         self.outletTextFieldName.text = file?.name ?? ""
+        /*
+        self.outletTextFieldName.selectedTextRange = self.outletTextFieldName.textRangeFromPosition(self.outletTextFieldName.beginningOfDocument, toPosition: self.outletTextFieldName.endOfDocument)
+*/
     }
 
 }

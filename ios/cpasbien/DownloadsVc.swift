@@ -34,6 +34,11 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
     private var pathItem: SynoPathItem?
     private var paths = Array<String>()
     
+    deinit {
+        DDLog.logDebug("~ctor")
+        self.tableView.ins_removePullToRefresh()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,7 +47,23 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
         
         self.updateView()
         
-        self.load()
+        self.tableView.ins_addPullToRefreshWithHeight(60.0, handler: { (sv: UIScrollView!) -> Void in
+            if self.isLoading {
+                return
+            }
+            self.dataLoad({ () -> Void in
+                sv.ins_endPullToRefresh()
+            })
+        })
+        
+        let pullToRefresh = PullToRefreshView(frame: CGRect(x: 0.0, y: 0.0, width: 25.0, height: 25.0))
+        
+        self.tableView.ins_pullToRefreshBackgroundView.delegate = pullToRefresh
+        self.tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
+        
+        // Load
+        self.tableView.ins_beginPullToRefresh()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -89,10 +110,10 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
                         paths.removeLast()
                     }
                     
-                    self.load()
+                    self.tableView.ins_beginPullToRefresh()
                 }
                 else {
-                    let popup = UIActionSheet(title: name, delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "rename")
+                    let popup = UIActionSheet(title: name, delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "rename", "move")
                     popup.tag = indexPath.row
                     popup.showInView(self.view)
                 }
@@ -124,6 +145,13 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
                     }
                     self.presentViewController(nav, animated: true, completion: nil)
                 }
+            case 2: // move
+                DDLog.logVerbose("rename")
+                var path = "/" + (file.name ?? "")
+                if self.paths.count > 0 {
+                    path = "/" + join("/", self.paths) + path
+                }
+                self.moveFile(path)
             default:
                 DDLog.logVerbose("not implemented")
             }
@@ -134,7 +162,7 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
     // MARK: - RenameFileVcDelegate
     // -------------------------------------------------------------------------
     func renameFileVcDidSuccess(sender: RenameFileVc) {
-        self.load()
+        self.tableView.ins_beginPullToRefresh()
     }
     
     // -------------------------------------------------------------------------
@@ -155,7 +183,34 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
         closure(pathItem: taskItem)
     }
 
-    private func load() {
+    func moveFile(path: String) {
+        DDLog.logVerbose("...")
+        
+        if self.isLoading {
+            return
+        }
+        
+        self.isLoading = true
+        KVNProgress.showWithStatus("Moving ...")
+        
+        let task = Connect.shared.promiseTask(Request.synoMove(path))
+        task.success { value -> Void in
+            println(value.rawString())
+            self.isLoading = false
+            KVNProgress.dismiss()
+            
+            self.tableView.ins_beginPullToRefresh()
+        }.failure { error, isCancelled -> Void in
+            if let err = error {
+                DTIToastCenter.defaultCenter.makeText(err.localizedDescription)
+                self.isLoading = false
+                KVNProgress.dismiss()
+            }
+        }
+        
+    }
+
+    private func dataLoad(completion: (() -> Void)?) {
         DDLog.logVerbose("...")
         if self.isLoading {
             return
@@ -168,29 +223,28 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
 
         self.isLoading = true
             
-        KVNProgress.showWithStatus("Loading ...")
         var request: NSURLRequest = Request.synoList(path)
         
         let task = Connect.shared.promiseTask(request)
         task.success { value -> Void in
             self.loadTaskData(value) { (pathItem) -> Void in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.pathItem = pathItem
-                    self.updateView()
-                    
-                    self.isLoading = false
-                    KVNProgress.dismiss()
-                })
-            }
-            }.failure { error, isCancelled -> Void in
-                if let err = error {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        DTIToastCenter.defaultCenter.makeText(err.localizedDescription)
-                        
-                        self.isLoading = false
-                        KVNProgress.dismiss()
-                    })
+                self.pathItem = pathItem
+                self.updateView()
+                
+                self.isLoading = false
+                if completion != nil {
+                    completion!()
                 }
+            }
+        }.failure { error, isCancelled -> Void in
+            if let err = error {
+                DTIToastCenter.defaultCenter.makeText(err.localizedDescription)
+                
+                self.isLoading = false
+                if completion != nil {
+                    completion!()
+                }
+            }
         }
     }
 }

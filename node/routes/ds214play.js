@@ -74,4 +74,21 @@ router.route('/rename')
 		);
 	});
 
+router.route('/move')
+	.post(function(req, res) {
+		console.log(util.format("%s %s", req.method, req.originalUrl));
+
+		var path = util.format("/%s%s", config.synoDownloadDestinationFolder, req.body.path);
+		var destPath = config.synoMoveDestinationFolder;
+
+		syno.apiMove(path, destPath).then(
+			function(result) {
+				res.json(result);
+			},
+			function(error) {
+				errorManager.handleError500(error, res);
+			}
+		);
+	});
+
 exports = module.exports = router;

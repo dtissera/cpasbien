@@ -7,13 +7,14 @@ var config = require('./config');
 var Syno = function() {
 	this.session = "DownloadStation";
 
+	this.fileStation_url = util.format("http://%s:%d/webapi/FileStation/", config.synoHost, config.synoPort);
 	this.downloadStation_url = util.format("http://%s:%d/webapi/DownloadStation/task.cgi", config.synoHost, config.synoPort);
 	this.fileStationFileShare_url = util.format("http://%s:%d/webapi/FileStation/file_share.cgi", config.synoHost, config.synoPort);
 	this.fileStationFileRename_url = util.format("http://%s:%d/webapi/FileStation/file_rename.cgi", config.synoHost, config.synoPort);
     this.auth_url = util.format("http://%s:%d/webapi/auth.cgi", config.synoHost, config.synoPort);
 }
 
-Syno.prototype.errorFromCode = function(code) {
+Syno.prototype.errorFromCode = function(api, code) {
 	switch(code) {
 		case 100: return util.format("Unknown error (%d)", code);
 		case 101: return util.format("Invalid parameter (%d)", code);
@@ -32,20 +33,30 @@ Syno.prototype.errorFromCode = function(code) {
 		case 406: return util.format("No default destination (%d)", code);
 		case 407: return util.format("Set destination failed (%d)", code);
 		case 408: return util.format("File does not exist (%d)", code);
-		default:
-			return code;
 	}
+	if (api === 'SYNO.FileStation.CopyMove') {
+		switch(code) {
+			case 1000: return util.format('Failed to copy files/folders (%d)', code);
+			case 1001: return util.format('Failed to move files/folders (%d)', code);
+			case 1002: return util.format('An error occurred at the destination (%d)', code);
+			case 1003: return util.format('Cannot overwrite or skip the existing file because no overwrite parameter is given (%d)', code);
+			case 1004: return util.format('File cannot overwrite a folder with the same name, or folder cannot overwrite a file with the same name (%d)', code);
+			case 1006: return util.format('Cannot copy/move file/folder with special characters to a FAT32 file system (%d)', code);
+			case 1007: return util.format('Cannot copy/move a file bigger than 4G to a FAT32 file system (%d)', code);
+		}
+	}
+	return util.format('Internal error (%d)', code);
 }
 
 Syno.prototype.login = function() {
 	var self = this;
-
+	var api = "SYNO.API.Auth";
 	var options = {
 		url: self.auth_url,
 		json: true,
 		method: 'GET',
 		qs: {
-			api: "SYNO.API.Auth",
+			api: api,
 			account: config.synoAccount,
 			passwd: config.synoPasswd,
 			version: "2",
@@ -63,7 +74,8 @@ Syno.prototype.login = function() {
 					resolve({sid: obj.data.sid});
 				}
 				else {
-					var err = self.errorFromCode(obj.error.code);
+					var err = self.errorFromCode(api, obj.error.code);
+					console.log(obj.error);
 					reject(new Error(err));
 				}
 			}
@@ -78,13 +90,14 @@ Syno.prototype.login = function() {
 
 Syno.prototype.logout = function(sid) {
 	var self = this;
+	var api = "SYNO.API.Auth";
 
 	var options = {
 		url: self.auth_url,
 		json: true,
 		method: 'GET',
 		qs: {
-			api: "SYNO.API.Auth",
+			api: api,
 			version: "1",
 			method: "logout",
 			session: self.session,
@@ -98,7 +111,8 @@ Syno.prototype.logout = function(sid) {
 					resolve(obj);
 				}
 				else {
-					var err = self.errorFromCode(obj.error.code);
+					var err = self.errorFromCode(api, obj.error.code);
+					console.log(obj.error);
 					reject(new Error(err));
 				}
 			}
@@ -113,13 +127,14 @@ Syno.prototype.logout = function(sid) {
 
 Syno.prototype.create = function(sid, uri) {
 	var self = this;
+	var api = "SYNO.DownloadStation.Task";
 
 	var options = {
 		url: self.downloadStation_url,
 		json: true,
 		method: 'GET',
 		qs: {
-			api: "SYNO.DownloadStation.Task",
+			api: api,
 			version: "1",
 			method: "create",
 			uri: uri,
@@ -134,7 +149,8 @@ Syno.prototype.create = function(sid, uri) {
 					resolve(obj);
 				}
 				else {
-					var err = self.errorFromCode(obj.error.code);
+					var err = self.errorFromCode(api, obj.error.code);
+					console.log(obj.error);
 					reject(new Error(err));
 				}
 			}
@@ -149,13 +165,14 @@ Syno.prototype.create = function(sid, uri) {
 
 Syno.prototype.list = function(sid, path) {
 	var self = this;
+	var api = "SYNO.FileStation.List";
 
 	var options = {
 		url: self.fileStationFileShare_url,
 		json: true,
 		method: 'GET',
 		qs: {
-			api: "SYNO.FileStation.List",
+			api: api,
 			version: "1",
 			method: "list",
 			folder_path: path,
@@ -171,7 +188,8 @@ Syno.prototype.list = function(sid, path) {
 					resolve(obj);
 				}
 				else {
-					var err = self.errorFromCode(obj.error.code);
+					var err = self.errorFromCode(api, obj.error.code);
+					console.log(obj.error);
 					reject(new Error(err));
 				}
 			}
@@ -186,13 +204,14 @@ Syno.prototype.list = function(sid, path) {
 
 Syno.prototype.rename = function(sid, path, name) {
 	var self = this;
+	var api = "SYNO.FileStation.Rename";
 
 	var options = {
 		url: self.fileStationFileRename_url,
 		json: true,
 		method: 'GET',
 		qs: {
-			api: "SYNO.FileStation.Rename",
+			api: api,
 			version: "1",
 			method: "rename",
 			path: path,
@@ -207,7 +226,48 @@ Syno.prototype.rename = function(sid, path, name) {
 					resolve(obj);
 				}
 				else {
-					var err = self.errorFromCode(obj.error.code);
+					var err = self.errorFromCode(api, obj.error.code);
+					console.log(obj.error);
+					reject(new Error(err));
+				}
+			}
+			else {
+				var err = tools.extractHttpError(error, response);
+				reject(new Error(err));
+			}
+		});
+	});
+	return promise;
+}
+
+Syno.prototype.move = function(sid, path, destpath) {
+	var self = this;
+	var api = "SYNO.FileStation.CopyMove";
+
+	var options = {
+		url: util.format("%s%s", self.fileStation_url, "file_MVCP.cgi"),
+		json: true,
+		method: 'GET',
+		qs: {
+			api: api,
+			version: "1",
+			method: "start",
+			path: path,
+			dest_folder_path: destpath,
+			overwrite: true,
+			remove_src: true,
+			_sid: sid
+		}
+	};
+	var promise = when.promise(function(resolve, reject) {
+		request(options, function (error, response, obj) {
+			if (!error && response.statusCode == 200) {
+				if (obj.success) {
+					resolve(obj);
+				}
+				else {
+					var err = self.errorFromCode(api, obj.error.code);
+					console.log(obj.error);
 					reject(new Error(err));
 				}
 			}
@@ -256,6 +316,33 @@ Syno.prototype.apiRename = function(path, name) {
 				var sid = result.sid;
 
 				self.rename(sid, path, name).then(
+					function(result) {
+						resolve(result);
+					},
+					function(error) {
+						reject(new Error(error));
+					}
+				);
+
+			},
+			function(error) {
+				reject(new Error(error));
+			}
+		);
+	});
+	return promise;
+}
+
+Syno.prototype.apiMove = function(path, destpath) {
+	console.log("path: "+path);
+	console.log("destpath: "+destpath);
+	var self = this;
+	var promise = when.promise(function(resolve, reject) {
+		self.login().then(
+			function(result) {
+				var sid = result.sid;
+
+				self.move(sid, path, destpath).then(
 					function(result) {
 						resolve(result);
 					},

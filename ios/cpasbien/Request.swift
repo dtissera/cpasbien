@@ -26,6 +26,7 @@ class Request {
             static let REST_SYNO_DOWNLOAD = "download"
             static let REST_SYNO_LIST = "list"
             static let REST_SYNO_RENAME = "rename"
+            static let REST_SYNO_MOVE = "move"
         }
         
         private var url: NSURL?
@@ -123,6 +124,13 @@ class Request {
         func rename() -> RestUrlFactory {
             if let url = self.url {
                 self.url = url.URLByAppendingPathComponent(Consts.REST_SYNO_RENAME)
+            }
+            return self
+        }
+
+        func move() -> RestUrlFactory {
+            if let url = self.url {
+                self.url = url.URLByAppendingPathComponent(Consts.REST_SYNO_MOVE)
             }
             return self
         }
@@ -329,6 +337,26 @@ class Request {
         components.queryItems = [
             NSURLQueryItem(name: "path", value: path),
             NSURLQueryItem(name: "name", value: name)
+        ]
+        if let query = components.percentEncodedQuery  {
+            req.HTTPBody = query.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        }
+        
+        return req
+    }
+
+    class func synoMove(path: String) -> NSMutableURLRequest {
+        DDLog.logInfo("path=\(path)")
+        var restUrlFactory = RestUrlFactory()
+        
+        var req = NSMutableURLRequest(URL: restUrlFactory.syno().move().toUrl())
+        req.HTTPMethod = "POST"
+        req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        req.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        var components = NSURLComponents()
+        components.queryItems = [
+            NSURLQueryItem(name: "path", value: path)
         ]
         if let query = components.percentEncodedQuery  {
             req.HTTPBody = query.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)

@@ -13,6 +13,7 @@ var Config = function() {
 	this.synoAccount = "download";
 	this.synoPasswd = "download";
 	this.synoDownloadDestinationFolder = "downloads";
+	this.synoMoveDestinationFolder = "video/Series";
 }
 
 Config.prototype.print = function() {
@@ -20,6 +21,7 @@ Config.prototype.print = function() {
 	console.log(util.format('  userAgent: %s', this.userAgent));
 	console.log(util.format('  syno: %s@%s:%d', this.synoAccount, this.synoHost, this.synoPort));
 	console.log(util.format('  synoDownloadDestinationFolder: %s', this.synoDownloadDestinationFolder));
+	console.log(util.format('  synoMoveDestinationFolder: %s', this.synoMoveDestinationFolder));
 }
 
 Config.prototype.load = function() {

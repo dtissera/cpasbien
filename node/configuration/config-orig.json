@@ -6,5 +6,6 @@
 	"synoPort": 5000,
 	"synoAccount": "download",
 	"synoPasswd": "download",
-	"synoDownloadDestinationFolder": "downloads"
+	"synoDownloadDestinationFolder": "downloads",
+	"synoMoveDestinationFolder": "video/Series"
 }	

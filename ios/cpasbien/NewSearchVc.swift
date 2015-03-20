@@ -40,8 +40,8 @@ class NewSearchVc: UITableViewController {
         // hide empty cell at table bottom
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
 
-        outletLabelDescription.textColor = UIColor(rgba: MainObject.Consts.BAR_TINT_COLOR)
-        outletTextFieldSearch.becomeFirstResponder()
+        self.outletLabelDescription.textColor = UIColor(rgba: MainObject.Consts.BAR_TINT_COLOR)
+        self.outletTextFieldSearch.becomeFirstResponder()
     }
 
     @IBAction func actionCancel(sender: AnyObject) {

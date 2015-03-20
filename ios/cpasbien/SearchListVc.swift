@@ -43,15 +43,13 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate, TorrentListVcDel
             })
         })
         
-        /*
-        let pullToRefresh = INSDefaultPullToRefresh(frame: CGRect(x: 0.0, y: 0.0, width: 24.0, height: 24.0), backImage: UIImage(named: "circle")!, frontImage: UIImage(named: "circle")!)*/
         let pullToRefresh = PullToRefreshView(frame: CGRect(x: 0.0, y: 0.0, width: 25.0, height: 25.0))
         
         self.tableView.ins_pullToRefreshBackgroundView.delegate = pullToRefresh
         self.tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
         
         // Load
-        self.dataLoad(nil)
+        self.tableView.ins_beginPullToRefresh()
     }
 
     override func didReceiveMemoryWarning() {
