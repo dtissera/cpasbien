@@ -7,5 +7,5 @@
 	"synoAccount": "download",
 	"synoPasswd": "download",
 	"synoDownloadDestinationFolder": "downloads",
-	"synoMoveDestinationFolder": "video/Series"
+	"synoMoveDestinationFolder": "/video/Series"
 }	
