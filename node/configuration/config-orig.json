@@ -7,5 +7,8 @@
 	"synoAccount": "download",
 	"synoPasswd": "download",
 	"synoDownloadDestinationFolder": "downloads",
-	"synoMoveDestinationFolder": "/video/Series"
+	"synoMoveDestinationFolder": "/video/Series",
+
+	"plexHost": "192.168.1.19",
+	"plexPort": 32400
 }	

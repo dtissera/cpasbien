@@ -6,6 +6,7 @@ var bodyParser = require("body-parser");
 var app = express();				// define our app using express
 var routerResearch = require("./routes/research");
 var routerDs214play = require("./routes/ds214play");
+var routerPlex = require("./routes/plex");
 var routerVersion = express.Router();
 var config = require('./config');
 var routeHelper = require("./routehelper");
@@ -42,6 +43,7 @@ app.use("/api", routerApi);
 routerApi.use("/1", routerVersion);
 routerVersion.use("/research", routerResearch);
 routerVersion.use("/syno", routerDs214play);
+routerVersion.use("/plex", routerPlex);
 //console.log(util.inspect(routerVersion, {showHidden: true, depth: null}));
 
 // READ Configuration
@@ -61,6 +63,7 @@ config.load().then(
 			routeHelper.print("/api/1", routerVersion);
 			routeHelper.print("/api/1/research", routerResearch);
 			routeHelper.print("/api/1/syno", routerDs214play);
+			routeHelper.print("/api/1/plex", routerPlex);
 
 			console.log('Running cpasbien server on port ' + port);
 		});

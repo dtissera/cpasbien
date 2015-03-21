@@ -334,8 +334,6 @@ Syno.prototype.apiRename = function(path, name) {
 }
 
 Syno.prototype.apiMove = function(path, destpath) {
-	console.log("path: "+path);
-	console.log("destpath: "+destpath);
 	var self = this;
 	var promise = when.promise(function(resolve, reject) {
 		self.login().then(

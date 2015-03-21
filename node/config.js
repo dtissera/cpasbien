@@ -14,6 +14,10 @@ var Config = function() {
 	this.synoPasswd = "download";
 	this.synoDownloadDestinationFolder = "downloads";
 	this.synoMoveDestinationFolder = "video/Series";
+
+	this.plexHost = "192.168.1.19";
+	this.plexPort = 32400;
+
 }
 
 Config.prototype.print = function() {
@@ -22,6 +26,7 @@ Config.prototype.print = function() {
 	console.log(util.format('  syno: %s@%s:%d', this.synoAccount, this.synoHost, this.synoPort));
 	console.log(util.format('  synoDownloadDestinationFolder: %s', this.synoDownloadDestinationFolder));
 	console.log(util.format('  synoMoveDestinationFolder: %s', this.synoMoveDestinationFolder));
+	console.log(util.format('  plex: %s:%d', this.plexHost, this.plexPort));
 }
 
 Config.prototype.load = function() {
