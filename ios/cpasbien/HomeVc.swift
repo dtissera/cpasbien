@@ -11,12 +11,14 @@ import TOMSMorphingLabel
 import CocoaLumberjack
 import SwiftyJSON
 import DTIToastCenter
+import SwiftTask
 
 class HomeVc: UITableViewController {
     @IBOutlet weak var outletMorphingLabel: TOMSMorphingLabel!
     @IBOutlet weak var outletCellVersion: UITableViewCell!
     @IBOutlet weak var outletCellApi: UITableViewCell!
     @IBOutlet weak var outletCellCheckApi: UITableViewCell!
+    @IBOutlet weak var outletCellRefreshPlex: UITableViewCell!
 
     private let textValues: Array<String> = ["", "Welcome", "to", "cpasbien"]
     
@@ -31,6 +33,7 @@ class HomeVc: UITableViewController {
     }
     
     private var isCheckingApi = false
+    private var isRefreshingPlex = false
     
     deinit {
         DDLog.logDebug("~ctor")
@@ -49,10 +52,12 @@ class HomeVc: UITableViewController {
 
         // Data
         let version = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as String
-        outletCellVersion.detailTextLabel!.text = version
+        self.outletCellVersion.detailTextLabel!.text = version
         
         let rest = Request.RestUrlFactory()
-        outletCellApi.detailTextLabel!.text = rest.toUrl().description
+        self.outletCellApi.detailTextLabel!.text = rest.toUrl().description
+        
+        self.outletCellRefreshPlex.detailTextLabel!.text = ""
         
         // Check API
         self.checkApi()
@@ -70,6 +75,9 @@ class HomeVc: UITableViewController {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) {
             if cell == self.outletCellCheckApi {
                 self.checkApi()
+            }
+            else if cell == self.outletCellRefreshPlex {
+                self.refreshPlex()
             }
         }
     }
@@ -128,6 +136,45 @@ class HomeVc: UITableViewController {
         })
         task.resume()
 
+    }
+    
+    private func refreshPlex() {
+        if self.isRefreshingPlex {
+            return
+        }
+        
+        self.isRefreshingPlex = true
+        
+        let activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        self.outletCellRefreshPlex.accessoryView = activityView
+        activityView.startAnimating()
+        
+        let updCellFct = {(text: String, removeActivity: Bool) -> Void in
+            self.outletCellRefreshPlex.detailTextLabel!.text = text
+            // Fix IOS 8 bug
+            let style = self.outletCellRefreshPlex.selectionStyle
+            self.outletCellRefreshPlex.selectionStyle = UITableViewCellSelectionStyle.None
+            self.outletCellRefreshPlex.selected = true
+            self.outletCellRefreshPlex.selected = false
+            self.outletCellRefreshPlex.selectionStyle = style
+            if removeActivity {
+                activityView.stopAnimating()
+                self.outletCellRefreshPlex.accessoryView = nil
+            }
+        }
+        
+        updCellFct("", false)
+        
+        let task = Connect.shared.promiseTask(Request.plexRefresh())
+        task.success { value -> Void in
+            self.isRefreshingPlex = false
+            updCellFct("", true)
+        }.failure { error, isCancelled -> Void in
+            if let err = error {
+                updCellFct(err.localizedDescription, true)
+                self.isRefreshingPlex = false
+            }
+        }
     }
 
     // -------------------------------------------------------------------------

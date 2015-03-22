@@ -46,9 +46,6 @@ public class Connect: NSObject, NSURLSessionDelegate {
                 if let msg = json["message"].string {
                     res = msg
                 }
-                else {
-                    res = json.rawString()
-                }
             }
             
         }

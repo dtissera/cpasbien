@@ -27,6 +27,8 @@ class Request {
             static let REST_SYNO_LIST = "list"
             static let REST_SYNO_RENAME = "rename"
             static let REST_SYNO_MOVE = "move"
+            static let REST_PLEX = "plex"
+            static let REST_PLEX_REFRESH = "refresh"
         }
         
         private var url: NSURL?
@@ -142,6 +144,20 @@ class Request {
             return self
         }
         
+        func plex() -> RestUrlFactory {
+            if let url = self.url {
+                self.url = url.URLByAppendingPathComponent(Consts.REST_PLEX)
+            }
+            return self
+        }
+        
+        func refresh() -> RestUrlFactory {
+            if let url = self.url {
+                self.url = url.URLByAppendingPathComponent(Consts.REST_PLEX_REFRESH)
+            }
+            return self
+        }
+
         func toUrl() -> NSURL {
             return (self.url == nil ? NSURL() : self.url!)
         }
@@ -362,6 +378,17 @@ class Request {
             req.HTTPBody = query.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
         }
         
+        return req
+    }
+
+    class func plexRefresh() -> NSMutableURLRequest {
+        var restUrlFactory = RestUrlFactory()
+        
+        var req = NSMutableURLRequest(URL: restUrlFactory.plex().refresh().toUrl())
+        DDLog.logInfo(req.description)
+        req.HTTPMethod = "GET"
+        req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        req.setValue("application/json", forHTTPHeaderField: "Accept")
         return req
     }
 

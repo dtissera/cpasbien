@@ -165,8 +165,6 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate, TorrentListVcDel
         }
         self.isLoading = true
         
-        KVNProgress.showWithStatus("Loading ...")
-        
         var request: NSURLRequest = Request.researchAll()
         let task = Connect.shared.buildTask(request, completionHandler: { (result: FailableOf<JSON>) -> Void in
             var taskData = Array<SearchItem>()
@@ -194,7 +192,6 @@ class SearchListVc: UITableViewController, NewSearchVcDelegate, TorrentListVcDel
                 if completion != nil {
                     completion!()
                 }
-                KVNProgress.dismiss()
             })
         })
         task.resume()

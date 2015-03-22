@@ -212,6 +212,26 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="PbE-eH-g1W" detailTextLabel="Ipm-u1-YIT" style="IBUITableViewCellStyleSubtitle" id="Tgb-2U-Fk4" userLabel="cellRefreshPlex">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tgb-2U-Fk4" id="hn2-os-5Sm">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="refresh plex" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PbE-eH-g1W">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ipm-u1-YIT">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -225,6 +245,7 @@
                     <connections>
                         <outlet property="outletCellApi" destination="Ddq-Tx-GG6" id="ob3-Nq-zQX"/>
                         <outlet property="outletCellCheckApi" destination="8MC-Q3-TKZ" id="hCA-hk-C40"/>
+                        <outlet property="outletCellRefreshPlex" destination="Tgb-2U-Fk4" id="f7Q-ff-XJK"/>
                         <outlet property="outletCellVersion" destination="ATC-1y-XuB" id="25f-Yj-mls"/>
                         <outlet property="outletMorphingLabel" destination="i6i-ug-bYO" id="XnD-AZ-qxB"/>
                     </connections>

@@ -63,7 +63,6 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
         
         // Load
         self.tableView.ins_beginPullToRefresh()
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -109,8 +108,8 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
                     else {
                         paths.removeLast()
                     }
-                    
-                    self.tableView.ins_beginPullToRefresh()
+
+                    self.dataLoad(nil)
                 }
                 else {
                     let popup = UIActionSheet(title: name, delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "rename", "move")
@@ -199,7 +198,7 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
             self.isLoading = false
             KVNProgress.dismiss()
             
-            self.tableView.ins_beginPullToRefresh()
+            self.dataLoad(nil)
         }.failure { error, isCancelled -> Void in
             if let err = error {
                 DTIToastCenter.defaultCenter.makeText(err.localizedDescription)
@@ -213,6 +212,9 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
     private func dataLoad(completion: (() -> Void)?) {
         DDLog.logVerbose("...")
         if self.isLoading {
+            if completion != nil {
+                completion!()
+            }
             return
         }
         
@@ -222,7 +224,11 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
         }
 
         self.isLoading = true
-            
+
+        if completion == nil {
+            KVNProgress.showWithStatus("Loading ...")
+        }
+
         var request: NSURLRequest = Request.synoList(path)
         
         let task = Connect.shared.promiseTask(request)
@@ -235,6 +241,9 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
                 if completion != nil {
                     completion!()
                 }
+                else {
+                    KVNProgress.dismiss()
+                }
             }
         }.failure { error, isCancelled -> Void in
             if let err = error {
@@ -243,6 +252,9 @@ class DownloadsVc: UITableViewController, RenameFileVcDelegate, UIActionSheetDel
                 self.isLoading = false
                 if completion != nil {
                     completion!()
+                }
+                else {
+                    KVNProgress.dismiss()
                 }
             }
         }
